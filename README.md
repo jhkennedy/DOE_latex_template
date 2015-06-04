@@ -2,7 +2,7 @@
 
 The initial version of this Sarah Gille at Scripps: 
 
-	[http://www-pord.ucsd.edu/~sgille/how_to/proposal_prep.html]
+	(http://www-pord.ucsd.edu/~sgille/how_to/proposal_prep.html)
 
 and I modified it to fit my needs and the [12/2014 NSF GPG](http://www.nsf.gov/publications/pub_summ.jsp?ods_key=gpg).
 
@@ -13,7 +13,7 @@ to fastlane. The page numbers will need some changes.
 The make file uses pdflatex ('cause I like my figures to be 
 vector and/or bitmaps), check_repeats, pdftk.
 
-check_repeats: [http://www.grapenthin.org/toolbox/check_repeats.html]
+check_repeats: (http://www.grapenthin.org/toolbox/check_repeats.html)
 [pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/): install w/ homebrew or other package manager.
 
 Obviously it is your responsibility to make sure that everything

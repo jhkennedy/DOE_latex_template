@@ -13,13 +13,12 @@ to fastlane. The page numbers will need some changes.
 The make file uses pdflatex ('cause I like my figures to be 
 vector and/or bitmaps), check_repeats, pdftk.
 
-check_repeats: http://www.grapenthin.org/toolbox/check_repeats.html
-
-[pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/): install w/ homebrew or other package manager.
+-check_repeats: http://www.grapenthin.org/toolbox/check_repeats.html
+-[pdftk](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/): install w/ homebrew or other package manager.
 
 Obviously it is your responsibility to make sure that everything
 is, in fact, in agreement with the most current NSF Grant 
-Proposal Guide and the respective Program's solicitation! 
+Proposal Guide and the respective program's solicitation! 
 This is all provided `as-is' and no blame or responsibility
 for anything that went wrong will be taken.
 

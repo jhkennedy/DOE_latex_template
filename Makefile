@@ -33,4 +33,4 @@ diff:
 	pdflatex diff
 
 clean: 
-	rm -f *.spl *.dvi *.aux *.log *.bbl *.blg *.out
+	rm -f *.spl *.dvi *.aux *.log *.bbl *.blg *.out *_*pdf

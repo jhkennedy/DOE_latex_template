@@ -1,19 +1,18 @@
 %%
-%% This is file `agu08.bst',
+%% This is file `agufull08.bst',
 %% generated with the docstrip utility.
 %%
 %% The original source files were:
 %%
-%% merlin.mbs  (with options: `head,ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{},nmlm,x9,m1')
-%% physjour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{},nmlm,x9,m1')
-%% geojour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{},nmlm,x9,m1')
-%% photjour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{},nmlm,x9,m1')
-%% merlin.mbs  (with options: `tail,ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{},nmlm,x9,m1')
+%% merlin.mbs  (with options: `head,ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{}')
+%% physjour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{}')
+%% geojour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{}')
+%% photjour.mbs  (with options: `ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{}')
+%% merlin.mbs  (with options: `tail,ay,nat,seq-labc,nm-rev1,jnrlst,lab,lab-it,keyxyr,blkyear,dt-beg,yr-par,xmth,note-yr,thtit-a,trnum-it,vol-it,volp-com,pgsep-c,num-xser,ser-vol,ser-ed,pg-bk,pg-pre,pre-edn,agu-doi,doi,edpar,bkedcap,edby,blk-com,pp,ed,abr,ednx,xedn,jabr,and-com,em-it,nfss,{}')
 %% ----------------------------------------
 %% *** For journals of the American Geophysical Union ***
-%% *** NOTE: this version limits number of authors in ref list to
-%% ***   maximum of 9; if more there, only First et al are listed
-%% ***   Use agufull08.bst instead for complete list
+%% *** NOTE: this version does not limit the number of authors in ref list.
+%% ***   Use agu08.bst to limit authors to maximum 9.
 %% ***
 %% ----------------------------------------
 %% *** Version 3.1 from 2008/08/27
@@ -671,14 +670,6 @@ FUNCTION {format.names}
       't :=
       nameptr #1 >
         {
-          nameptr #1
-          #1 + =
-          numnames #9
-          > and
-            { "others" 't :=
-              #1 'namesleft := }
-            'skip$
-          if$
           namesleft #1 >
             { ", " * t * }
             {
@@ -832,14 +823,6 @@ FUNCTION {format.full.names}
       't :=
       nameptr #1 >
         {
-          nameptr #1
-          #1 + =
-          numnames #9
-          > and
-            { "others" 't :=
-              #1 'namesleft := }
-            'skip$
-          if$
           namesleft #1 >
             { ", " * t * }
             {
@@ -1660,14 +1643,6 @@ FUNCTION {sort.format.names}
       format.name$ 't :=
       nameptr #1 >
         {
-          nameptr #1
-          #1 + =
-          numnames #9
-          > and
-            { "others" 't :=
-              #1 'namesleft := }
-            'skip$
-          if$
           "   "  *
           namesleft #1 = t "others" = and
             { "zzzzz" 't := }
@@ -1850,4 +1825,4 @@ FUNCTION {end.bib}
 EXECUTE {end.bib}
 %% End of customized bst file
 %%
-%% End of file `agu08.bst'.
+%% End of file `agufull08.bst'.

@@ -62,7 +62,7 @@ distclean:
 #NOTE: This will capture your terminal so it works best to run make continuous 
 #      in its own terminal.
 #
-#NOTE: This will *not* update the flattened file. Make sure to run make on it's own 
+#NOTE: This will *not* update the flattened file. Make sure to run make on its own 
 #      before commiting changes.
 continuous: $(MAIN).tex $(MAIN).flt .refresh $(SOURCES)
 	$(LATEXMK) $(LATEXMKOPT) $(CONTINUOUS) \

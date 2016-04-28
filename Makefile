@@ -1,36 +1,73 @@
-#Obviously it is your responsibility to make sure that everything
-#is, in fact, in agreement with the most current NSF Grant 
-#Proposal Guide and the respective Program's solicitation! 
-#This is all provided `as-is' and no blame or responsibility
-#for anything that went wrong will be taken.
+# A latex make file by @jhkennedy
+# Addapted from:
+#     https://drewsilcock.co.uk/using-make-and-latexmk
+
+MAIN=main
+SOURCES=$(MAIN).tex Makefile $(shell find ./ -iname "*.tex")
+
+LATEX=pdflatex
+LATEXOPT=--shell-escape
+NONSTOP=--interaction=nonstopmode
+
+LATEXMK=latexmk
+LATEXMKOPT=-pdf
+CONTINUOUS=-pvc
+
+#TODO: automatically update figure pdfs from eps files
+
+.refresh:
+	touch .refresh
+
+$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) 
+	$(LATEXMK) $(LATEXMKOPT) \
+		-pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
+
+$(MAIN).flt: $(MAIN).tex .refresh $(SOURCES) 
+	./Scripts/flatex $(MAIN).tex
+	
+
+.PHONY: all once force clean distclean continuous
+
+all: $(MAIN).pdf $(MAIN).flt 
+
+once: $(MAIN).flt
+	$(LATEXMK) $(LATEXMKOPT) -pdflatex="$(LATEX) $(LATEXOPT) %O %S" $(MAIN)
+
+force: $(MAIN).flt
+	touch .refresh
+	rm $(MAIN).pdf
+	$(LATEXMK) $(LATEXMKOPT) \
+		-pdflatex="$(LATEX) $(LATEXOPT) %O %S" $(MAIN)
+
+clean:
+	$(LATEXMK) -c $(MAIN)
+	rm -f $(MAIN).pdfsync
+	rm -rf *~ *.tmp
+	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
+
+distclean:
+	$(LATEXMK) -C $(MAIN)
+	rm -f $(MAIN).pdfsync
+	rm -rf *~ *.tmp
+	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
+
+# using this will continuously look for changes and update the pdf automatically. 
+# It's not quite a live preview, but it's pretty dang close.
 #
-#Good luck!
+#NOTE: This command will work best when you setup a `.latexmkrc` file in your home 
+#      directory that, at least, sets the previewer you want to use (e.g., evince, 
+#      xpdf, acroread). To do that, place this line in that file:
+#          $pdf_previewer="start evince %O %S"
+#
+#NOTE: This will capture your terminal so it works best to run make continuous 
+#      in its own terminal.
+#
+#NOTE: This will *not* update the flattened file. Make sure to run make on it's own 
+#      before commiting changes.
+continuous: $(MAIN).tex $(MAIN).flt .refresh $(SOURCES)
+	$(LATEXMK) $(LATEXMKOPT) $(CONTINUOUS) \
+		-pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
 
-.PHONY: all proposal diff
+debug:
+	$(LATEX) $(LATEXOPT) $(MAIN)
 
-all: proposal_template 
-
-proposal_template:
-	pdflatex $@
-	bibtex $@ 
-	pdflatex $@
-	pdflatex $@ 
-	@echo; echo
-	@check_repeats $@.tex
-	pdftk $@.pdf cat r1 output $@_facilities.pdf
-	pdftk $@.pdf cat r2 output $@_data_management.pdf
-	pdftk $@.pdf cat r3 output $@_budget_justification.pdf	
-	pdftk $@.pdf cat r4 output $@_current_pending.pdf
-	pdftk $@.pdf cat r5 output $@_references.pdf
-	pdftk $@.pdf cat 1 output $@_project_summary.pdf
-	pdftk $@.pdf cat 2-r6 output $@_project_description.pdf	
-
-diff:
-	latexdiff v0.tex v1.tex > diff.tex
-	pdflatex diff
-	bibtex diff
-	pdflatex diff
-	pdflatex diff
-
-clean: 
-	rm -f *.spl *.dvi *.aux *.log *.bbl *.blg *.out *_*pdf

@@ -1,0 +1,498 @@
+#!/usr/bin/perl -w
+#
+# fmtlatex - put a LaTeX document into a canonical formatting suitable
+# for comparing genuine differences rather than just formatting
+# differences
+# 
+# Copyright (C) 2007   Andrew Stacey <stacey@math.ntnu.no>
+# 
+# This program is free software; you can redistribute it and/or mod
+# ify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of the
+# License, or any later version.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+# USA.
+# 
+
+use strict;
+use Getopt::Long qw(:config auto_help bundling);
+use Pod::Usage;
+
+my (
+    $shortmath,
+    $shortarray,
+    $indent,
+    $parsep,
+    $state,
+    $descend,
+    $ascend,
+    $previous,
+    $preamble,
+    $dopreamble,
+    $curindent,
+    $man,
+    $help,
+    $gpl,
+    $version,
+    $verstring
+    );
+
+$verstring = "fmtlatex version 1.0, Copyright (C) 2007 Andrew Stacey\nfmtlatex comes with ABSOLUTELY NO WARRANTY; for details type\n `fmtlatex --man'.\nThis is free software, and you are welcome to redistribute it under certain\nconditions; type `fmtlatex --man' for details.";
+
+# Default options
+
+# How long should inline maths be before it gets its own line?
+$shortmath = 20;
+
+# Ditto for array-like environments
+$shortarray = 40;
+
+# Do we want indentation?
+$indent = " ";
+
+# Commandline options
+
+GetOptions (
+    "p|preamble" => \$dopreamble,
+    "i|indent=i" => sub {my ($a, $b) = @_; $indent = $indent x $b;},
+    "m|math=i" => \$shortmath,
+    "a|array=i" => \$shortarray,
+    "man" => \$man,
+    "h|?|help" => \$help,
+    "gpl" => \$gpl,
+    "V|version" => \$version
+    ) or pod2usage(2);
+
+die "$verstring\n" if $version;
+pod2usage(-exitval => 1, -verbose => 1) if $help;
+pod2usage(-verbose => 2 ) if $man;
+exec 'perldoc perlgpl' if $gpl;
+
+
+# Regular expression to match a lines that start or separate
+# paragraphs.  Copied from Emacs, had to translate \> to \b and $$
+# seemed in the wrong place (needed preceeding backslash in Emacs
+# version).
+
+
+# If the start of the line matches something here then it is not part
+# of the previous paragraph.
+
+$parsep = '^ (?: \f |
+                    \s* (?: $        |
+                            %        |
+                            \$\$     |
+                            \\\\[][] |
+                            \\\\ (?: b(?:egin   | ibitem)            |
+                                     c(?:aption | hapter)            |
+                                     end                             |
+                                     footnote                        |
+                                     item                            |
+                                     label                           |
+                                     marginpar                       |
+                                     n(?:ew(?:lin | pag)e | oindent) |
+                                     par(?:agraph | box | t)         |
+                                     s(?:ection |
+                                         ub(?:paragraph |
+                                              s(?:(?:ubs)?section)
+                                           )
+                                      )                              |
+                                     [a-z]*(page | s(?:kip | space))
+                                 ) \b
+                        )
+                )';
+
+# Certain commands should be on their own line.  The following regexp
+# determines which.  Note, we only add an eol after them if they
+# (essentially) _begin_ the current line.
+
+$state = '^ \s* (?: \$\$   |
+                        \\\\[][] |
+                        \\\\ (?: b(?:egin   | ibitem)            |
+                                 c(?:aption | hapter)            |
+                                 end                             |
+                                 footnote                        |
+                                 item                            |
+                                 label                           |
+                                 marginpar                       |
+                                 n(?:ew(?:lin | pag)e | oindent) |
+                                 par(?:agraph | box | t)         |
+                                 s(?:ection |
+                                     ub(?:paragraph |
+                                          s(?:(?:ubs)?section)
+                                       )
+                                  )                              |
+                                 [a-z]*(page | s(?:kip | space))
+                              ) \b
+                      )';
+
+
+# Regular expression to match a descent or ascent of depth
+
+$descend = ' \\\\ \[       |
+                \\\\ begin \b |
+                \{ ';
+
+$ascend =  ' \\\\ \]     |
+                \\\\ end \b |
+                \}';
+
+# Actually, we work on the previous line
+$previous = "";
+
+# And we start with no indentation
+$curindent = 0;
+
+while (<>) {
+
+    # Skip between '\documentclass' and '\begin{document}'
+
+    if (/^[^%]*\\documentclass\b/) {
+	$preamble = 1;
+    }
+
+    if (s/^([^%]*\\begin\{document\})\s*//) {
+	print $1 . "\n";
+	$preamble = 0;
+    }
+
+    $dopreamble or $preamble and print and next;
+
+    # Do we remove the eol from the previous line?  Check the current
+    # line against the paragraph separator and remove the eol if it
+    # doesn't match.
+
+    if (!/$parsep/x
+	and ($previous !~ /%/)
+	and ($previous !~ /^\s*$/)) {
+	# This line appears to be in the same paragraph as the
+	# previous one, so we ought to chomp the previous one.  There
+	# are two cases where we don't: if the previous line was
+	# (essentially) blank then we don't chomp it, and if the
+	# previous line ended in a comment then we don't.  If we do
+	# chomp, we add a whitespace to ensure that the whitespace
+	# count is not effected.
+	chomp($previous) and
+	    $previous .=  " ";
+    }
+
+    # does $previous have an eol?
+
+    if ($previous =~ /\n/) {
+	&output($previous);
+	$previous = "";
+    }
+
+    $previous .= $_;
+
+}
+
+&output($previous);
+
+exit 0;
+
+sub output {
+    my ($line) = @_;
+    my $comment = "";
+    chomp($line);
+
+    $line =~ s/(%.*)// and $comment = $1;
+    
+
+    # So much for removing eols, do we want to add any in?
+
+    # Rule 1.  New sentence, new line.  Use TeX's algorithm: .!? end a
+    # sentence unless . is preceeded by a capital letter.
+
+    $line =~ s/([^A-Z]\.|^\.|\?|!) +/$1\n/g;
+
+    # Rule 3.  Long inline maths is on its own line.
+
+    # Break on starting maths:
+    #
+    # Must have a whitespace to break on, and don't break if the break
+    # point is already at the start
+
+    $line =~ s/([^\n\s])[\n\s]+(\S*(?:\\\(|\$))/$1\n$2/g;
+
+    # If the closing delimeter occurs less than $shortmath from the
+    # start, remove the break; otherwise add an ending break.
+	    
+    $line =~ s/(^\S*(?:\\\(|\$).{$shortmath,}\\\)\S*) */$1\n/mg;
+    $line =~ s/\n(\S*(?:\\\(|\$).{0,$shortmath}\\\)\S*)/ $1/g;
+
+    # Rule 4.  Tables and arrays are split according to lines, and
+    # entries if long enough.  Ought to make this the same throughout
+    # the table but that involves remembering too much information.
+
+    # Break after & and \\'s.
+    # We want to ensure that we don't _add_ any whitespace here so if there
+    # wasn't any originally we add a comment string before the eol.  Also,
+    # don't break if we are already (effectively) broken.
+
+    $line =~ s/(\&|\\\\)\s+(?!%|$)/$1\n/g;
+    $line =~ s/(\&|\\\\)(?!\s|%|$)/$1%\n/g;
+
+    # If two adjacent column entries are shorter than the given
+    # minimum length, remove the eol between them.  Can't just add 'g'
+    # modifier to the regexp as we may need to join several entries
+    # together and so need to backtrack.
+
+    while ($line =~ s/(^.{0,$shortarray}\&)\n(.{0,$shortarray}(?:\&|\\\\|\n))/$1 $2/s) {};
+
+    # Rule 2.  Change-of-states that occur at the start of a line get their
+    # own line.  Need to include any arguments on that line.
+
+    my $newline = "";
+    while ($line =~ s/($state)//x) {
+	$newline .= $1;
+	my $nextarg;
+	($nextarg, $line) = &nextarg($line);
+	while ($nextarg !~ /^ *$/) {
+	    $newline .= $nextarg;
+	    ($nextarg, $line) = &nextarg($line);
+	}
+	$newline .= "\n";
+    }
+    $line = $newline . $line;
+
+    # Make sure we haven't inadvertantly _added_ a double eol or any
+    # excessive whitespace
+
+    $line =~ s/\n+/\n/g;
+    $line =~ s/^ +//mg;
+    $line =~ s/  +/ /g;
+
+    # Add some basic contextual indentation.
+
+    if ($indent) {
+	my @lines = split("\n", $line);
+	for (my $i = 0; $i <= $#lines; $i++) {
+# If the line _starts_ with an ascender or an \item, cancel an indent
+	    my $offset = ($lines[$i] =~ /^(?:$ascend|\\item)/x ? -1 : 0);
+# If the line _starts_ with inline maths, add an indent.  Note this and the
+# previous can't _both_ match so we're okay setting $offset to 1 if this
+# matches.
+	    $offset = ($lines[$i] =~ /^\s*\\\(/ ? 1 : $offset);
+	    $lines[$i] = $indent x ($curindent + $offset) . $lines[$i];
+
+# Count the ascenders and descenders in the line to get the current
+# indent for the next line.
+# Actually work on a 'decommentised' version of the line so that stuff in
+# comments doesn't effect the count.
+	    my $decomment = $lines[$i];
+	    $decomment =~ s/%.*//;
+	    while ($decomment =~ /$descend/gx) {
+		$curindent++;
+	    }
+	    while ($decomment =~ /$ascend/gx) {
+		$curindent--;
+	    }
+	}
+	$line = join("\n", @lines) . "\n";
+    }
+
+# Finally, don't indent comments
+
+    $line =~ s/^ +%/%/;
+
+    chomp($line);
+    print $line . $comment . "\n";
+}
+
+
+# Extract the next block from the string
+sub nextarg {
+    my ($string) = @_;
+    my $first = "";
+
+# Bail out if we didn't actually get anything
+    return ("", "") unless ($string);
+
+    if ($string =~ s/^(\{.*?\})//s) {
+# We need to ensure that the braces are balanced.
+	$first = $1;
+	my $c = ($first =~ tr/{/{/) - ($first =~ tr/}/}/);
+	while ($c > 0) {
+	    $string =~ s/^(.*?})//s;
+	    $first .= $1;
+# Count the number of opening and closing braces in $first
+	    $c = ($first =~ tr/{/{/) - ($first =~ tr/}/}/);
+	}
+	return ($first, $string);
+    }
+
+    if ($string =~ s/^(\[.*?\])//s) {
+# We need to ensure that the curly braces are balanced.
+	$first = $1;
+	my $c = ($first =~ tr/{/{/) - ($first =~ tr/}/}/);
+	while ($c > 0) {
+	    $string =~ s/^(.*?])//s;
+	    $first .= $1;
+# Count the number of opening and closing braces in $first
+	    $c = ($first =~ tr/{/{/) - ($first =~ tr/}/}/);
+	}
+	return ($first, $string);
+    }
+
+# All else, just return first character
+
+    $string =~ s/(.)//s;
+
+    return ($1, $string);
+}
+
+__END__
+
+=head1 NAME
+
+fmtlatex - format a LaTeX document putting it into a canonical format suitable for finding genuine differences rather than formatting differences
+
+=head1 SYNPOSIS
+
+ fmtlatex [OPTIONS] [FILES]
+
+Format [FILES] or standard input according to the rules, modified by [OPTIONS] if specified, sending output to standard output.
+
+Example: fmtlatex < paper.tex > paper.fmt.tex
+
+ Options:
+  -p, --preamble    process the preamble
+  -m, --math NUM    inline math longer than NUM gets its own line
+                    (default: 20)
+  -a, --array NUM   array-like entries longer than NUM get their own line
+                    (default: 40)
+  -i, --indent NUM  add indentation using NUM multiples of " "
+                    (default: 1)
+  --man             print man page
+  -h,-?, --help     print basic help
+  -V, --version     print version information
+  -gpl              print GPL
+
+=head1 DESCRIPTION
+
+B<fmtlatex> formats a LaTeX document into a standardised layout according to the following rules:
+
+=item B<1.> Each sentence is on its own line.
+
+=item B<2.> Change-of-state commands are on their own line (e.g. \begin or \[)
+
+=item B<3.> Long pieces of inline maths are on their own line
+
+=item B<4.> Long array entries are on their own line, otherwise array rows are on their own line.
+
+The other guiding principle is that the original author is assumed to be intelligent.
+
+B<fmtlatex> works by going through a LaTeX document, supplied either on the command line or via standard input, line by line and removing or adding end-of-line characters according to the above rules.  The purpose is to produce a document in a standardised form that can be compared with a previous version using, say, I<diff> so that the differences shown are due to actual differences of content and not accidental differences of formatting.
+
+Minor modification of the algorithm can be done by changing the values of certain options.  Major modification can be done by hacking the program.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<-p, --preamble>
+
+Determines whether or not to process the preamble.  The default is to skip the preamble (everything between C<documentclass> and C<begin{document}>).
+
+=item B<-m NUM, --math NUM>
+
+Designates how long a stretch of inline maths has to be before it qualifies for its own line.  Note: the length is of the maths but there may be extra junk on the line as the program only inserts eols at existing whitespace.
+
+Default: 20
+
+=item B<-a NUM, --array NUM>
+
+Designates how long an array entry has to be before it qualifies for its own line.  Note: both the current and next array entries have to be shorter than this to qualify for a single line.
+
+Default: 40
+
+=item B<-i NUM, --indent NUM>
+
+The program also inserts basic indentation according to how "deep" the start of the current line is (it counts the number of '\\begin's, '\['s, and '{'s and their corresponding terminators) and indents accordingly.  NUM designates how many spaces corresponds to one indentation.
+
+=item B<--man>
+
+Display full man page.
+
+=item B<-h, -?, --help>
+
+Display basic help page.
+
+=item B<-V, --version>
+
+Display version information.
+
+=item B<--gpl>
+
+Display GPL.
+
+=head1 NOTES
+
+The indentation and inline math algorithms ignore '$' but the paragraph separation knows about them.  Basically, you shouldn't be using '$'s in a LaTeX document.  Coding for things like C<$a=b$$c=d$> is a hassle and I'd rather not bother if I didn't have to.
+
+This program shouldn't introduce any TeXtual changes into your document.  A simple way to test this (before you delete the original), is to C<latex> the original and the formatted version each a few times, then C<dvips> them, and C<diff> the resulting postscript files.  You should see something like
+
+ shell% diff original.ps new.ps
+ 3c3
+ < %%Title: original.dvi
+ ---
+ > %%Title: new.dvi
+ 12c12
+ < %DVIPSCommandLine: dvips original.dvi
+ ---
+ > %DVIPSCommandLine: dvips new.dvi
+ 14c14
+ < %DVIPSSource:  TeX output 2007.12.20:1128
+ ---
+ > %DVIPSSource:  TeX output 2007.12.20:1159
+ 1560c1560
+ < TeXDict begin 39139632 55387786 1000 600 600 (original.dvi)
+ ---
+ > TeXDict begin 39139632 55387786 1000 600 600 (new.dvi)
+
+That is, no significant change at all.
+
+
+=head1 BUGS
+
+Whad'dya mean, "I've found a bug."?  Impossible.  There are no bugs,
+only features.  To tell me about features, send an email to 
+
+stacey@math.ntnu.no
+
+With the following in the subject line:
+
+Howay man, av fund ah borg een furmatleetach.
+
+=head1 AUTHOR
+
+Andrew Stacey
+
+=head1 LICENSE
+
+Copyright (C) 2007   Andrew Stacey
+
+This program is free software; you can redistribute it and/or mod ify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+USA.
+

@@ -47,6 +47,8 @@ where `ALT_TARGET` is the name of the alternate LaTeX file without the `.tex`
 extension (e.g., to compile `alternate.tex`, you'd run `make MAIN=alternate`),
 and `OPTIONS` is any of the above make options.
 
+_This Makefile was adapted from: [Drew Silcock's blog](https://drewsilcock.co.uk/using-make-and-latexmk)_
+
 
 The DOE proposal template
 =========================
@@ -54,22 +56,28 @@ The DOE proposal template
 This template was adapted from an NSF proposal template with a distinguished
 history. 
 
-The initial version came from [Sarah Gille at Scripps](http://www-pord.ucsd.edu/~sgille/how_to/proposal_prep.html) 
+The initial version came from [Sarah Gille at Scripps][Sarah]. 
 
-It was then [modified by Rn Grapenthin](https://github.com/rgrapenthin/nsf_latex_template) 
-to fit the needs of [12/2014 NSF GPG](http://www.nsf.gov/publications/pub_summ.jsp?ods_key=gpg).
+It was then [modified by Rn Grapenthin][Rn] to fit the needs of 
+[12/2014 NSF GPG][NSF GPG].
 
-It has since been [modified by J. H. Kennedy](https://github.com/jhkennedy/DOE_latex_template) 
-to create a DOE style proposal in line with XXX.
+It has since been [modified by J. H. Kennedy][jhkennedy] to create a DOE style
+proposal in line with XXX.
 
 
 Fair warning
 ------------
 
-Obviously it is your responsibility to make sure that everything
-is, in fact, in agreement with the most current DOE Grant 
-Proposal Guide and the respective program's solicitation! 
-This is all provided __as-is__ and no blame or responsibility
-for _anything_ will be taken.
+Obviously it is your responsibility to make sure that everything is, in fact, in
+agreement with the most current DOE Grant Proposal Guide and the respective
+program's solicitation!  This is all provided __as-is__ and no blame or
+responsibility for _anything_ will be taken.
 
 Good luck!
+
+
+
+[Sarah]: http://www-pord.ucsd.edu/~sgille/how_to/proposal_prep.html
+[Rn]: https://github.com/rgrapenthin/nsf_latex_template
+[NSF GPG]: http://www.nsf.gov/publications/pub_summ.jsp?ods_key=gpg
+[jhkennedy]: https://github.com/jhkennedy/DOE_latex_template

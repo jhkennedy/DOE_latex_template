@@ -9,11 +9,11 @@ make
 ```
 
 At the command line. The make command will generate a `main.pdf` file from the
-`main.tex` file, and a flattened (stand-alone) version of `main.tex` includes
-all the imported tex (like through `\input{}` or `\include{}`) and all the
-bibliography info from the bibtex generated `main.bbl` (from the `main.bib`
-file). This is to allow easy submission to journals, and makes using `latexdiff`
-much, much easier. 
+`main.tex` file, and a flattened (stand-alone) version of `main.tex`, called
+`main.flt`, which includes all the imported tex (like through `\input{}` or
+`\include{}`) and all the bibliography info from the bibtex generated
+`main.bbl` (from the `main.bib` file). This is to allow easy submission to
+journals, and makes using `latexdiff` much, much easier. 
 
 
 Makefile options
@@ -47,7 +47,7 @@ where `ALT_TARGET` is the name of the alternate LaTeX file without the `.tex`
 extension (e.g., to compile `alternate.tex`, you'd run `make MAIN=alternate`),
 and `OPTIONS` is any of the above make options.
 
-_This Makefile was adapted from: [Drew Silcock's blog](https://drewsilcock.co.uk/using-make-and-latexmk)_
+_This Makefile was adapted from: [Drew Silcock's blog][drew]._
 
 
 The DOE proposal template
@@ -76,7 +76,7 @@ responsibility for _anything_ will be taken.
 Good luck!
 
 
-
+[drew]: https://drewsilcock.co.uk/using-make-and-latexmk
 [Sarah]: http://www-pord.ucsd.edu/~sgille/how_to/proposal_prep.html
 [Rn]: https://github.com/rgrapenthin/nsf_latex_template
 [NSF GPG]: http://www.nsf.gov/publications/pub_summ.jsp?ods_key=gpg

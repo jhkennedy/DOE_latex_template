@@ -1,40 +1,25 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{proposalnsf}[2008/06/01 NSF proposal style v1.3 SGLS]
+\ProvidesClass{DOEproposal}[2016/05/01 DOE proposal style]
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions
-\LoadClass[11pt]{article}
-\RequirePackage{calc}
-%\RequirePackage{pdffig}
-\RequirePackage{natbib}
-\RequirePackage[american]{babel}
-%\RequirePackage{hyperref}
-\RequirePackage{mathpazo}
-%\RequirePackage{newcent}
+\LoadClass[11pt,letterpaper]{article}
 
-\setlength{\paperheight}{11in}
-\setlength{\paperwidth}{8.5in}
-\addtolength{\voffset}{-1in}
-\addtolength{\hoffset}{-1in}
-\setlength{\topmargin}{1in}
-\setlength{\oddsidemargin}{1in}
-\setlength{\evensidemargin}{1in}
-\setlength{\textwidth}{\paperwidth - 2in}
-\setlength{\textheight}{\paperheight - 2in}
-\setlength{\footskip}{36pt}
-\setlength{\marginparsep}{0.5cm}
-\setlength{\marginparwidth}{1.5cm}
-\setlength{\headheight}{0pt}
-\setlength{\headsep}{0pt}
+\RequirePackage[in]{fullpage}
+\RequirePackage{mathptmx}
+\RequirePackage[compact]{titlesec}
+    \titlespacing{\section}{0pt}{*2}{*0.5}
+    \titlespacing{\subsection}{0pt}{*0.75}{*0.5}
+    \titlespacing{\subsubsection}{0pt}{*0.75}{*0.5}
+\RequirePackage[sort]{natbib}
+\RequirePackage{longtable}
+\RequirePackage{color}
 
-\RequirePackage{fancyhdr}
-\pagestyle{fancyplain}
-\renewcommand{\headrulewidth}{0pt}
-\lhead{}
-\chead{}
-\rhead{}
-\lfoot{}
-\cfoot{\thepage}
-\rfoot{}
+\renewcommand*{\title}[1]{\gdef\Title{#1}}
+\renewcommand*{\date}[1]{\gdef\Date{#1}}
+\newcommand*{\investigator}[1]{\gdef\Investigator{#1}}
+\newcommand*{\institute}[1]{\gdef\Institute{#1}}
+\newcommand*{\phone}[1]{\gdef\Phone{#1}}
+\newcommand*{\email}[1]{\gdef\Email{#1}}
 
-%\def\@makefnmark{\hbox{$^{\fnsymbol{\@mpfn}}\m@th$}}
-\renewcommand\floatpagefraction{.9}
+%Command to remove space from itemized lists
+\newcommand{\zapspace}{\topsep=1pt\partopsep=1pt\itemsep=1pt\parskip=2pt}

@@ -1,0 +1,91 @@
+\lipsum[131]
+The targeted due dates for the deliverables are indicated in quarter year
+increments: e.g., Q4 referes to delivery one year after the project funding
+begins, and Q12 referes to the end of the three-year project.
+
+%NOTE: Use enumerate to get the proper section heddings, then nested itemized
+%lists to get major/minor tasks. This SHOULD match your table of contents.
+
+
+%stuff to make enumerate mimic section numbering:
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+\renewcommand{\labelenumiv}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}}
+
+\begin{enumerate}
+\setcounter{enumi}{1} %start on sect 2 for consistency w/ section labeling.
+
+    \item Something Neat
+        \begin{enumerate}
+            \item Some details
+                \begin{itemize}
+                    \item Major task 1 (Q6)
+                        \begin{itemize}
+                            \item Minor Task 1 (Q2)
+                            \item Minor Task 2 (Q4)
+                            \item Minor Task 3 (Q6)
+                        \end{itemize}
+                    \item Major task 2 (Q8)
+                        \begin{itemize}
+                            \item Minor Task 4 (Q3)
+                            \item Minor Task 5 (Q6)
+                            \item Minor Task 6 (Q8)
+                        \end{itemize}
+                \end{itemize}
+        \end{enumerate}
+        \begin{enumerate}
+            \item Other details
+                \begin{itemize}
+                    \item Major task 3 (Q6)
+                        \begin{itemize}
+                            \item Minor Task 1 (Q2)
+                            \item Minor Task 2 (Q4)
+                            \item Minor Task 3 (Q6)
+                        \end{itemize}
+                    \item Major task 4 (Q8)
+                        \begin{itemize}
+                            \item Minor Task 4 (Q3)
+                            \item Minor Task 5 (Q6)
+                            \item Minor Task 6 (Q8)
+                        \end{itemize}
+                \end{itemize}
+        \end{enumerate}
+
+    \item Something Else Neat
+        \begin{enumerate}
+            \item Set of details
+                \begin{itemize}
+                    \item Major task 1 (Q6)
+                        \begin{itemize}
+                            \item Minor Task 1 (Q2)
+                            \item Minor Task 2 (Q4)
+                            \item Minor Task 3 (Q6)
+                        \end{itemize}
+                    \item Major task 2 (Q8)
+                        \begin{itemize}
+                            \item Minor Task 4 (Q3)
+                            \item Minor Task 5 (Q6)
+                            \item Minor Task 6 (Q8)
+                        \end{itemize}
+                \end{itemize}
+        \end{enumerate}
+        \begin{enumerate}
+            \item Another set of details
+                \begin{itemize}
+                    \item Major task 3 (Q6)
+                        \begin{itemize}
+                            \item Minor Task 1 (Q2)
+                            \item Minor Task 2 (Q4)
+                            \item Minor Task 3 (Q6)
+                        \end{itemize}
+                    \item Major task 4 (Q12)
+                        \begin{itemize}
+                            \item Minor Task 4 (Q5)
+                            \item Minor Task 5 (Q10)
+                            \item Minor Task 6 (Q12)
+                        \end{itemize}
+                \end{itemize}
+        \end{enumerate}
+
+\end{enumerate}
+

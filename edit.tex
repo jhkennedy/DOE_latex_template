@@ -1,0 +1,17 @@
+% ================================================
+% Assign each person a color for in=text comments.
+% ================================================
+\usepackage[dvipsnames]{xcolor}
+% For a list of named colors, see:
+%     https://en.wikibooks.org/wiki/LaTeX/Colors#The_68_standard_colors_known_to_dvips
+
+% --------------------------------------------------------------------------
+% These definitions define a \NAME command which, when used like:
+%    \NAME{Some comment.}
+% will produce:
+%    NAME says:  Some commnet.
+% in the generated PDF. The comment will also be colored with NAME's color. 
+% --------------------------------------------------------------------------
+% A cool person 
+\newcommand{\cool}[1]{{\color{Red}Cool says:~#1}}
+

@@ -1,3 +1,25 @@
+Some LaTeX tools in the proposal
+================================
+
+__Collaborative Editing__: The `edit.tex` file has some definitions that make
+collaborative editing easier.   
+
+* Named commands:
+
+```
+These definitions define a \name command which, when used like:
+   \name{Some comment.}
+will produce:
+   Name says:  Some commnet.
+in the generated PDF. The comment will also be colored with NAME's color.
+-------------------------------------------------------------------------
+Example:
+    `\newcommand{\name}[1]{{\color{Red}Name says:~#1}}`
+To use: Replace \name and Name with an editors name.
+-------------------------------------------------------------------------
+```
+
+
 Compiling the proposal
 ======================
 

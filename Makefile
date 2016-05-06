@@ -18,7 +18,7 @@ CONTINUOUS=-pvc
 .refresh:
 	touch .refresh
 
-$(MAIN).pdf: $(MAIN).tex .refresh $(SOURCES) 
+$(MAIN).pdf: $(MAIN).tex $(MAIN).flt .refresh $(SOURCES) 
 	$(LATEXMK) $(LATEXMKOPT) \
 		-pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
 
@@ -28,7 +28,7 @@ $(MAIN).flt: $(MAIN).tex .refresh $(SOURCES)
 
 .PHONY: all once force clean distclean continuous
 
-all:$(MAIN).flt  $(MAIN).pdf 
+all: $(MAIN).flt $(MAIN).pdf 
 
 once: $(MAIN).flt
 	$(LATEXMK) $(LATEXMKOPT) -pdflatex="$(LATEX) $(LATEXOPT) %O %S" $(MAIN)

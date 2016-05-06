@@ -28,7 +28,7 @@ $(MAIN).flt: $(MAIN).tex .refresh $(SOURCES)
 
 .PHONY: all once force clean distclean continuous
 
-all: $(MAIN).pdf $(MAIN).flt 
+all:$(MAIN).flt  $(MAIN).pdf 
 
 once: $(MAIN).flt
 	$(LATEXMK) $(LATEXMKOPT) -pdflatex="$(LATEX) $(LATEXOPT) %O %S" $(MAIN)

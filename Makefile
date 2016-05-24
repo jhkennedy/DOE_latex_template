@@ -22,8 +22,14 @@ $(MAIN).pdf: $(MAIN).tex $(MAIN).flt .refresh $(SOURCES)
 	$(LATEXMK) $(LATEXMKOPT) \
 		-pdflatex="$(LATEX) $(LATEXOPT) $(NONSTOP) %O %S" $(MAIN)
 
-$(MAIN).flt: $(MAIN).tex .refresh $(SOURCES) 
-	./Scripts/flatex $(MAIN).tex
+flatex: flatex.o
+	gcc flatex.o utils.o -o flatex
+
+flatex.o: Scripts/flatex.C
+	gcc -c Scripts/flatex.C Scripts/utils.C
+
+$(MAIN).flt: $(MAIN).tex flatex .refresh $(SOURCES) 
+	./flatex $(MAIN).tex
 	
 
 .PHONY: all once force clean distclean continuous
@@ -43,12 +49,15 @@ clean:
 	$(LATEXMK) -c $(MAIN)
 	rm -f $(MAIN).pdfsync
 	rm -rf *~ *.tmp
+	rm -f *.o
 	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
 
 distclean:
 	$(LATEXMK) -C $(MAIN)
 	rm -f $(MAIN).pdfsync
 	rm -rf *~ *.tmp
+	rm -f *.o
+	rm -f flatex
 	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
 
 # using this will continuously look for changes and update the pdf automatically. 

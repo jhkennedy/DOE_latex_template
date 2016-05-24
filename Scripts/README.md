@@ -27,7 +27,7 @@ GNU General Public License by the Free Software Foundation, version 3, and can
 be found [here][bib].
 
 
-__flatex__: This is a C program to flatten a LaTeX file into a single file, by
+__flatex.c__: This is a C program to flatten a LaTeX file into a single file, by
 explicitly including the files included by `\include` and `\input` commands.
 Also, if BibTeX is being used, then it includes the bbl file into the resulting
 file. The result is therefore a stand-alone LaTeX file.
@@ -41,9 +41,13 @@ Usage:
                -b      Do not insert bibiliography file(.bbl)
 
 
-flatex was created by Sariel Har-Peled, and no license information is available
-for this script, but it is available on CTAN, the comprehensive TeX archive
-network, [here][flatten].
+flatex was created by Sariel Har-Peled. The original version of this script is
+available on CTAN, the comprehensive TeX archive network, [here][flatten]. A
+new version, which is included here, is available from Sariel's website
+[here][newflatten]. Sariel says, _"You can do whatever you like with this
+program. please email me bugs & suggestions. Its is liscenced under the GPL."_
+but the GPL version is unclear as it is not stated, nor is a copy included with
+the source. There was _no_ licensing information given with the original version. 
 
 __fmtlatex.pl__: This tool formats a LaTeX document, putting it into a canonical
 format suitable for finding genuine differences rather than formatting
@@ -91,5 +95,6 @@ blog][clean].
 
 [bib]: http://korrekt.org/page/Note:How_to_Extract_Used_Entries_From_BibTeX_Files
 [flatten]: http://www.ctan.org/pkg/flatex 
+[newflatten]: http://sarielhp.org/progs/flatex/
 [clean]: http://readingsml.blogspot.com/2011/04/useful-latexsvn-tools-merge-clean-svn.html
 

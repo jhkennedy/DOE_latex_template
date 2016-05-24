@@ -65,8 +65,6 @@
 
 
 % flatex input end: [edit.tex]
-
-% editing easier. 
 % ----------------------------------
 
 
@@ -134,23 +132,10 @@
 
 
 % flatex input end: [Text/title_page.tex]
-}
-% NOTE: you'll have to edit the imported file.
 
 % set the bibliography style
 %\bibliographystyle{ametsoc2014}
-%*flatex input: [main.bbl]
-\begin{thebibliography}{0}
-\providecommand{\natexlab}[1]{#1}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
-  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
-  \urlstyle{rm}\Url}\fi
-
-\end{thebibliography}
-
-% flatex input end: [main.bbl]
-%FLATEX-REM:\bibliographystyle{agufull08}
+\bibliographystyle{agufull08}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Begin the document
@@ -197,8 +182,6 @@
 
 
 % flatex input end: [Text/abstract.tex]
-
-% the abstract
     \newpage
 
     % setup the main body of the proposal
@@ -218,8 +201,6 @@
 \lipsum[5]
 
 % flatex input end: [Text/intro.tex]
-
-% Section 1
 
     \vspace{0.5em}
     \subsection{Motivation}
@@ -254,8 +235,6 @@ Our definition of sucess\ldots
 
 % flatex input end: [Text/motivation.tex]
 
-% Section 1
-
     \vspace{0.5em}
     \subsection{Background}
         \label{sec:background}
@@ -263,8 +242,6 @@ Our definition of sucess\ldots
 \lipsum[11-20]
 
 % flatex input end: [Text/background.tex]
-
-% Section 1
 
     \vspace{0.5em}
     \subsection{Selection of Tasks}
@@ -283,8 +260,6 @@ have included supplemental materials of a Project Staffing Overview
 
 % flatex input end: [Text/selected_tasks.tex]
 
-% Section 1
-
 
 % Section 2
 \section{Proposed Research: Something Neat}
@@ -294,8 +269,6 @@ have included supplemental materials of a Project Staffing Overview
 
 
 % flatex input end: [Text/SEC2/description.tex]
-
-% Section 2
 
     \vspace{0.5em}
     \subsection{Some details}
@@ -321,8 +294,6 @@ have included supplemental materials of a Project Staffing Overview
 
 % flatex input end: [Text/SEC3/description.tex]
 
-% Section 3
-
     \vspace{0.5em}
     \subsection{Set of details}
         \label{sec:setdetails}
@@ -346,8 +317,6 @@ have included supplemental materials of a Project Staffing Overview
 
 
 % flatex input end: [Text/outline.tex]
-
-% the main body of the proposal
     
     
     % Extras
@@ -358,8 +327,6 @@ have included supplemental materials of a Project Staffing Overview
 
 % flatex input end: [Text/Extras/management_plan.tex]
 
-% Extras
-
     \section{Data Management Plan}
         \label{sec:data_management}
         % flatex input: [Text/Extras/data_management.tex]
@@ -367,16 +334,12 @@ have included supplemental materials of a Project Staffing Overview
 
 % flatex input end: [Text/Extras/data_management.tex]
 
-% Extras
-
     \section{Software Productivity and Sustainability Plan}
         \label{sec:software_sustainability}
         % flatex input: [Text/Extras/software_sustainability.tex]
 \lipsum[111-120]
 
 % flatex input end: [Text/Extras/software_sustainability.tex]
-
-% Extras
 
 
     % end of proosal narrative
@@ -394,8 +357,6 @@ have included supplemental materials of a Project Staffing Overview
 \lipsum[121-130]
 
 % flatex input end: [Text/staffing.tex]
-
-% supplemental materials
     \newpage
 
     \section{Project Timeline, Deliverables, and Tasks}
@@ -494,8 +455,6 @@ begins, and Q12 referes to the end of the three-year project.
 
 
 % flatex input end: [Text/task_list.tex]
-
-% supplemental materials
     \newpage
 
 
@@ -511,13 +470,11 @@ begins, and Q12 referes to the end of the three-year project.
 \end{tabular}
 
 % flatex input end: [Text/Extras/abbreviations.tex]
-
-% The bibliography 
     \newpage
 
     \section{Literature Cited}
         \label{sec:references}
-%FLATEX-REM:        \bibliography{main}
+        \bibliography{main}
     \newpage
    
 
@@ -617,15 +574,11 @@ The following pages list 2-page CVs for the key personnel listed below.
 
 % flatex input end: [Bios/cv_example.tex]
 
-% NOTE: You can import tex bios like so
-
 % NOTE: But, You'll probably import PDF versions of everyones short CV like so
 \includepdf[pages=-,pagecommand={\thispagestyle{plain}}]{Bios/cv_example.pdf}
 
 
 % flatex input end: [Bios/biosketches.tex]
-
-% The short biosketches for EVERY contributing person
     
 
 \end{document}

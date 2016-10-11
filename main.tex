@@ -80,17 +80,17 @@
     \newpage
 
     % the abstract
-    \begin{center}
-        {\bf \Large Abstract}
-    \end{center}
+    \phantomsection
+    \section*{\hfill Abstract \hfill}
     \addcontentsline{toc}{section}{Abstract}
     \input{Text/abstract}
     \newpage
 
     % setup the main body of the proposal
     \pagenumbering{arabic}
-    \addcontentsline{toc}{section}{Proposal Narrative}
     \setcounter{page}{1}
+    \phantomsection
+    \addcontentsline{toc}{section}{Proposal Narrative}
 
     
     % the main body of the proposal

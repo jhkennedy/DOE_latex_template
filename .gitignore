@@ -1,6 +1,8 @@
 #### joe made this: https://goel.io/joe
 *.pdf
 .refresh
+flatex*
+utils.o
 
 #####=== Vim ===#####
 [._]*.s[a-w][a-z]
